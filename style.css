@@ -1,3 +1,4 @@
+/* General Styles */
 * {
     margin: 0;
     padding: 0;
@@ -16,12 +17,14 @@ html, body {
     font-family: monospace;
 }
 
+/* Animation Container */
 #animationContainer {
     position: relative;
     width: 100%;
     height: 100%;
 }
 
+/* Canvas for the Lambda Animation */
 #backgroundCanvas {
     position: absolute;
     top: 0;
@@ -30,18 +33,26 @@ html, body {
     height: 100%;
 }
 
-#noiseText {
+/* Name Text */
+#nameText {
     position: absolute;
     bottom: 10%;
     width: 100%;
     text-align: center;
-    font-size: 2rem;
+    font-size: 2.5rem;
     color: white;
     opacity: 0;
-    animation: noiseFadeIn 3s ease forwards 5s;
+    animation: flicker 5s infinite;
 }
 
-@keyframes noiseFadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+/* Hidden Element (Before Showing the Name) */
+.hidden {
+    display: none;
+}
+
+/* Flickering Animation for Name Text */
+@keyframes flicker {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
 }
