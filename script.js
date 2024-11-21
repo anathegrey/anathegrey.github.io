@@ -9,16 +9,17 @@ canvas.height = window.innerHeight;
 // Lambda symbol and constants
 const lambdaSymbol = "λ"; // Symbol to display
 const fontSize = 200; // Font size for the lambda
-let pixelSize = 40; // Starting pixel size for pixelation
 const pixelationSpeed = 100; // Speed of pixelation in milliseconds
+let pixelSize = 40; // Starting pixel size for pixelation
 const pixelationThreshold = 2; // Minimum pixel size before clearing
-
-// Animation Phases
-let pixelationComplete = false; // Track if pixelation is done
+const pixelationAreaSize = fontSize * 2; // Constrain pixelation area
 
 // Center coordinates
 const centerX = canvas.width / 2;
 const centerY = canvas.height / 2;
+
+// Animation phases
+let pixelationComplete = false;
 
 // Set up the canvas
 function setupCanvas() {
@@ -30,14 +31,23 @@ function setupCanvas() {
 
 // Draw the pixelated lambda
 function drawLambdaPixelated() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(
+        centerX - pixelationAreaSize / 2,
+        centerY - pixelationAreaSize / 2,
+        pixelationAreaSize,
+        pixelationAreaSize
+    );
 
-    // Loop through the canvas in chunks of `pixelSize`
-    for (let x = 0; x < canvas.width; x += pixelSize) {
-        for (let y = 0; y < canvas.height; y += pixelSize) {
+    // Loop through a constrained pixelation area
+    for (let x = -pixelationAreaSize / 2; x < pixelationAreaSize / 2; x += pixelSize) {
+        for (let y = -pixelationAreaSize / 2; y < pixelationAreaSize / 2; y += pixelSize) {
             if (Math.random() < 0.5) { // Randomly decide to draw this pixel
                 ctx.fillStyle = "white";
-                ctx.fillText(lambdaSymbol, centerX + x - canvas.width / 2, centerY + y - canvas.height / 2);
+                ctx.fillText(
+                    lambdaSymbol,
+                    centerX + x,
+                    centerY + y
+                );
             }
         }
     }
@@ -53,7 +63,12 @@ function drawLambdaPixelated() {
 
 // Draw the clear lambda symbol
 function drawLambdaClear() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(
+        centerX - pixelationAreaSize / 2,
+        centerY - pixelationAreaSize / 2,
+        pixelationAreaSize,
+        pixelationAreaSize
+    );
     ctx.fillStyle = "white";
     ctx.fillText(lambdaSymbol, centerX, centerY);
 
