@@ -1,64 +1,85 @@
+// Get the canvas and set up the context
 const canvas = document.getElementById("backgroundCanvas");
 const ctx = canvas.getContext("2d");
 
+// Adjust canvas size
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-const lambdaSymbol = "λ"; // Customize this if you want a different symbol
-const fontSize = 200; // Adjust size as needed
-const noiseDuration = 5000; // Duration for visual noise effect in milliseconds
+// Define constants
+const lambdaSymbol = "λ"; // The character to display
+const fontSize = 200; // Size of the lambda symbol
+const pixelationSpeed = 100; // Speed of pixelation in milliseconds
+let pixelSize = 40; // Starting size for pixel blocks
+const pixelationThreshold = 2; // Minimum size for pixel blocks before stopping
+const noiseDuration = 5000; // Noise effect duration in milliseconds
 
-// Lambda Pixelation Effect
-let pixelSize = 20;
-let pixelInterval = setInterval(drawLambdaPixelated, 100);
-
-function drawLambdaPixelated() {
+// Set up the canvas for rendering
+function setupCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "white";
     ctx.font = `${fontSize}px monospace`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
+}
 
-    const x = canvas.width / 2;
-    const y = canvas.height / 2;
+// Draw the lambda symbol pixelated
+function drawLambdaPixelated() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw lambda with pixel effect
-    for (let i = 0; i < canvas.width; i += pixelSize) {
-        for (let j = 0; j < canvas.height; j += pixelSize) {
-            if (Math.random() < 0.5) { // Randomly pixelate
-                ctx.fillText(lambdaSymbol, x + i - canvas.width / 2, y + j - canvas.height / 2);
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+
+    // Loop through the canvas area in chunks of `pixelSize`
+    for (let x = 0; x < canvas.width; x += pixelSize) {
+        for (let y = 0; y < canvas.height; y += pixelSize) {
+            // Randomly decide whether to draw this pixel
+            if (Math.random() < 0.5) {
+                ctx.fillStyle = "white";
+                ctx.fillText(lambdaSymbol, centerX + x - canvas.width / 2, centerY + y - canvas.height / 2);
             }
         }
     }
 
+    // Gradually reduce pixel size
     pixelSize -= 2;
-    if (pixelSize <= 2) {
-        clearInterval(pixelInterval);
-        drawLambdaClear();
+    if (pixelSize <= pixelationThreshold) {
+        clearInterval(pixelInterval); // Stop the pixelation process
+        drawLambdaClear(); // Show the clear lambda symbol
     }
 }
 
+// Draw the clear lambda symbol after pixelation completes
 function drawLambdaClear() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "white";
     ctx.fillText(lambdaSymbol, canvas.width / 2, canvas.height / 2);
-    addNoiseEffect();
+    addNoiseEffect(); // Add the visual noise effect to the text
 }
 
-// Noise Effect for the Text
+// Add the noise effect to the "Your Name" text
 function addNoiseEffect() {
     const noiseText = document.getElementById("noiseText");
+
+    // Flicker effect
     let noiseInterval = setInterval(() => {
-        noiseText.style.opacity = Math.random() < 0.5 ? "1" : "0.5";
+        noiseText.style.opacity = Math.random() < 0.5 ? "0.3" : "1";
     }, 50);
 
+    // Stop the flicker effect after a certain duration
     setTimeout(() => {
         clearInterval(noiseInterval);
-        noiseText.style.opacity = "1";
+        noiseText.style.opacity = "1"; // Ensure final opacity is fully visible
     }, noiseDuration);
 }
 
+// Handle resizing of the window
 window.addEventListener("resize", () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    drawLambdaClear();
+    setupCanvas();
+    drawLambdaClear(); // Redraw the clear lambda symbol after resize
 });
+
+// Start the pixelation process
+setupCanvas();
+const pixelInterval = setInterval(drawLambdaPixelated, pixelationSpeed);
