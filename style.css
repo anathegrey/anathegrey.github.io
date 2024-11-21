@@ -1,0 +1,47 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    color: white;
+    font-family: monospace;
+}
+
+#animationContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#backgroundCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#noiseText {
+    position: absolute;
+    bottom: 10%;
+    width: 100%;
+    text-align: center;
+    font-size: 2rem;
+    color: white;
+    opacity: 0;
+    animation: noiseFadeIn 3s ease forwards 5s;
+}
+
+@keyframes noiseFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
