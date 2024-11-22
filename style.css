@@ -18,9 +18,9 @@ html, body {
 
 /* Animation Container */
 #animationContainer {
-    position: relative;
-    width: 100%;
-    height: 100%;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 /* Canvas for the animation */
@@ -35,18 +35,18 @@ html, body {
 /* Name text styling */
 #nameText {
   position: absolute;
-  bottom: 10%;
+  top: calc(50% + 120px); /* Place below the lambda symbol */
   width: 100%;
   text-align: center;
   font-size: 2rem;
   color: white;
-  opacity: 0;
-  animation: flicker 5s infinite;
+  opacity: 0; /* Hidden initially */
+  animation: noiseEffect 0.5s infinite; /* Flicker effect */
 }
 
 /* Hidden Element (Before Showing the Name) */
 .hidden {
-    display: none;
+  display: none;
 }
 
 /* Keyframes for the noise effect */
