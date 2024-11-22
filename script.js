@@ -22,7 +22,7 @@ function drawBlurredLambda() {
   ctx.font = `${fontSize}px monospace`;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.fillStyle = "rgba(255, 255, 255, 0)";
+  ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
 
   for (let i = 0; i < 10; i++) {
       ctx.fillText(lambdaSymbol, centerX, centerY);
@@ -38,7 +38,7 @@ function pixelizeLambda() {
   for (let x = centerX - 100; x <= centerX + 100; x += pixelSize) {
     for (let y = centerY - 100; y <= centerY + 100; y += pixelSize) {
       if (Math.random() < 0.5) {
-        ctx.fillStyle = "rgba(255, 255, 255, 0)";
+          ctx.fillStyle = "rgba(255, 255, 255, ${1-pixelOpacity})";
         ctx.fillRect(x, y, pixelSize, pixelSize);
       }
     }
@@ -50,7 +50,7 @@ function pixelizeLambda() {
     ctx.font = `${fontSize}px monospace`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillStyle = `rgba(255, 255, 255, 0)`;
+    ctx.fillStyle = `rgba(255, 255, 255, ${1-pixelOpacity})`;
     ctx.fillText(lambdaSymbol, centerX, centerY);
     
     if (pixelSize <= 2) {
