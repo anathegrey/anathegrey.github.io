@@ -27,10 +27,11 @@ function setupCanvas() {
     ctx.font = `${fontSize}px monospace`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
+    ctx.fillStyle = "white";
 }
 
-// Draw the pixelated lambda
-function drawLambdaPixelated() {
+// Draw the pixelated lambda progressively becoming clearer
+function drawLambdaUnpixelizing() {
     ctx.clearRect(
         centerX - pixelationAreaSize / 2,
         centerY - pixelationAreaSize / 2,
@@ -42,7 +43,6 @@ function drawLambdaPixelated() {
     for (let x = -pixelationAreaSize / 2; x < pixelationAreaSize / 2; x += pixelSize) {
         for (let y = -pixelationAreaSize / 2; y < pixelationAreaSize / 2; y += pixelSize) {
             if (Math.random() < 0.5) { // Randomly decide to draw this pixel
-                ctx.fillStyle = "white";
                 ctx.fillText(
                     lambdaSymbol,
                     centerX + x,
@@ -52,7 +52,7 @@ function drawLambdaPixelated() {
         }
     }
 
-    // Gradually reduce the pixel size
+    // Gradually reduce the pixel size, making the lambda clearer
     pixelSize -= 2;
     if (pixelSize <= pixelationThreshold) {
         clearInterval(pixelInterval); // Stop the pixelation animation
@@ -69,7 +69,6 @@ function drawLambdaClear() {
         pixelationAreaSize,
         pixelationAreaSize
     );
-    ctx.fillStyle = "white";
     ctx.fillText(lambdaSymbol, centerX, centerY);
 
     // After a delay, show the name text
@@ -98,4 +97,4 @@ window.addEventListener("resize", () => {
 
 // Start the pixelation process
 setupCanvas();
-const pixelInterval = setInterval(drawLambdaPixelated, pixelationSpeed);
+const pixelInterval = setInterval(drawLambdaUnpixelizing, pixelationSpeed);
