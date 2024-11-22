@@ -30,6 +30,7 @@ html, body {
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 0; /* Canvas should be at the back */
 }
 
 /* Name text styling */
@@ -41,6 +42,7 @@ html, body {
   font-size: 2rem;
   color: white;
   opacity: 0; /* Initially hidden */
+  z-index: 1; /* Make sure the name is above the canvas */
   animation: glitch-skew 1s infinite linear alternate-reverse;
 }
 
