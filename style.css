@@ -35,30 +35,16 @@ html, body {
 /* Name text styling */
 #nameText {
   position: absolute;
-  top: calc(50% + 120px); /* Place below the lambda symbol */
+  top: calc(50% + 120px); /* Position below the lambda */
   width: 100%;
   text-align: center;
   font-size: 2rem;
   color: white;
-  opacity: 0; /* Hidden initially */
-  animation: noiseEffect 0.5s infinite; /* Flicker effect */
+  opacity: 0; /* Initially hidden */
+  animation: noiseFadeIn 3s forwards; /* Fade-in effect */
 }
 
-/* Hidden Element (Before Showing the Name) */
-.hidden {
-  display: none;
-}
-
-/* Keyframes for the noise effect */
-@keyframes noiseEffect {
-  0%, 100% {
-    opacity: 0.5;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
+/* Keyframes for the fade-in effect */
 @keyframes noiseFadeIn {
   from {
     opacity: 0;

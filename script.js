@@ -1,114 +1,67 @@
-// Get the canvas and its context
+// Get references to canvas and context
 const canvas = document.getElementById("backgroundCanvas");
 const ctx = canvas.getContext("2d");
-
-// Set canvas size to match the window size
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-// Constants
-const lambdaSymbol = "λ"; // Lambda symbol
-const fontSize = 200; // Font size for the lambda
-const blurDuration = 2000; // Blur phase duration in milliseconds
-const pixelationDuration = 2000; // Pixelation phase duration in milliseconds
-const pixelationStep = 40; // Starting size for pixelation
-let pixelSize = pixelationStep;
+// Lambda symbol and font settings
+const lambdaSymbol = "λ";
+const fontSize = 200; // Customize size
+const pixelSize = 20; // Pixelation size
+let pixelInterval;
+let noiseInterval;
 
-// Lambda center position
+// Initialize lambda drawing position
 const centerX = canvas.width / 2;
-const centerY = canvas.height / 2;
+const centerY = canvas.height / 2 - fontSize / 2;
 
-// Phase management
-let phase = "blur"; // Current animation phase
-let startTime = Date.now(); // Start time of the animation
+// Draw blurred lambda
+function drawBlurredLambda() {
+  ctx.font = `${fontSize}px monospace`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
 
-// Set up initial canvas context
-ctx.textAlign = "center";
-ctx.textBaseline = "middle";
-ctx.font = `${fontSize}px monospace`;
-
-// Draw the blur effect
-function drawBlur() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // Create a radial gradient to simulate blur
-  const gradient = ctx.createRadialGradient(centerX, centerY, 50, centerX, centerY, 200);
-  gradient.addColorStop(0, "white");
-  gradient.addColorStop(1, "black");
-
-  // Fill the canvas with the gradient
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  // Check if blur phase is done
-  if (Date.now() - startTime >= blurDuration) {
-    phase = "pixelation"; // Move to the next phase
-    startTime = Date.now(); // Reset the timer
+  for (let i = 0; i < 10; i++) {
+    ctx.fillText(lambdaSymbol, centerX, centerY);
   }
 }
 
-// Draw the pixelated lambda effect
-function drawPixelatedLambda() {
+// Pixelize the lambda gradually
+function pixelizeLambda() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Draw the lambda symbol as a series of pixels
-  for (let x = -fontSize / 2; x < fontSize / 2; x += pixelSize) {
-    for (let y = -fontSize / 2; y < fontSize / 2; y += pixelSize) {
-      if (Math.random() > 0.5) {
+  for (let x = centerX - 100; x <= centerX + 100; x += pixelSize) {
+    for (let y = centerY - 100; y <= centerY + 100; y += pixelSize) {
+      if (Math.random() < 0.5) {
         ctx.fillStyle = "white";
-        ctx.fillText(lambdaSymbol, centerX + x, centerY + y);
+        ctx.fillRect(x, y, pixelSize, pixelSize);
       }
     }
   }
 
-  // Gradually reduce pixel size to make the lambda clearer
-  pixelSize -= 2;
+  pixelSize -= 2; // Gradually refine the resolution
   if (pixelSize <= 2) {
-    phase = "clearLambda"; // Transition to the clear lambda phase
-    startTime = Date.now(); // Reset the timer
-    pixelSize = pixelationStep; // Reset pixel size for any future runs
+    clearInterval(pixelInterval);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillText(lambdaSymbol, centerX, centerY);
+    showName(); // Reveal name after pixelation
   }
 }
 
-// Draw the clear lambda
-function drawClearLambda() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // Draw the fully clear lambda symbol
-  ctx.fillStyle = "white";
-  ctx.fillText(lambdaSymbol, centerX, centerY);
-
-  // Transition to the name display phase after a short delay
-  if (Date.now() - startTime >= 1000) {
-    phase = "name";
-    document.getElementById("nameText").classList.remove("hidden");
-    document.getElementById("nameText").style.animation = "noiseEffect 0.5s infinite";
-  }
+// Display the name with a noise fade-in effect
+function showName() {
+  const nameText = document.getElementById("nameText");
+  nameText.style.opacity = "1"; // Trigger fade-in animation
 }
 
-// Main animation loop
-function animate() {
-  switch (phase) {
-    case "blur":
-      drawBlur();
-      break;
-    case "pixelation":
-      drawPixelatedLambda();
-      break;
-    case "clearLambda":
-      drawClearLambda();
-      break;
-  }
-
-  // Continue the animation loop
-  requestAnimationFrame(animate);
-}
-
-// Handle window resizing
+// Event listeners and initialization
 window.addEventListener("resize", () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
+  drawBlurredLambda();
 });
 
 // Start the animation
-animate();
+drawBlurredLambda();
+pixelInterval = setInterval(pixelizeLambda, 100);
