@@ -39,10 +39,9 @@ function pixelizeLambda() {
         ctx.fillRect(x, y, pixelSize, pixelSize);
       }
     }
+    // Gradually refine the resolution
+    pixelSize -= 2;
   }
-
-  // Gradually refine the resolution
-  pixelSize -= 2;
   if (pixelSize <= 2) {
     // Clear pixelation interval
     clearInterval(pixelInterval);
