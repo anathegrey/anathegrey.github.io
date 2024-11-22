@@ -9,6 +9,7 @@ const lambdaSymbol = "λ";
 const fontSize = 200; // Customize size
 const initialPixelSize = 20; // Initial pixel size
 let pixelSize = initialPixelSize; // Current pixelation size
+let pixelOpacity = 0; // Opacity for the clear lambda, starts invisible
 let pixelInterval; // Interval for pixelation effect
 let phase = "blur";
 
@@ -37,13 +38,21 @@ function pixelizeLambda() {
   for (let x = centerX - 100; x <= centerX + 100; x += pixelSize) {
     for (let y = centerY - 100; y <= centerY + 100; y += pixelSize) {
       if (Math.random() < 0.5) {
-        ctx.fillStyle = "white";
+        ctx.fillStyle = "rgba(255, 255, 255, ${1 - pixelOpacity})";
         ctx.fillRect(x, y, pixelSize, pixelSize);
       }
     }
   }
   // Gradually refine the resolution
-  pixelSize -= 2;
+    pixelSize -= 2;
+    pixelOpacity += 0.05;
+
+    ctx.font = `${fontSize}px monospace`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = `rgba(255, 255, 255, ${pixelOpacity})`;
+    ctx.fillText(lambdaSymbol, centerX, centerY);
+    
     if (pixelSize <= 2) {
 	phase = "clearLambda";
 	// Clear pixelation interval
