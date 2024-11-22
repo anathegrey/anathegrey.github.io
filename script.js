@@ -10,10 +10,11 @@ const fontSize = 200; // Customize size
 const initialPixelSize = 20; // Initial pixel size
 let pixelSize = initialPixelSize; // Current pixelation size
 let pixelInterval; // Interval for pixelation effect
+let phase = "blur";
 
 // Initialize lambda drawing position
 const centerX = canvas.width / 2;
-const centerY = canvas.height / 2 - fontSize / 2;
+const centerY = canvas.height / 2;
 
 // Draw blurred lambda (initial state)
 function drawBlurredLambda() {
@@ -23,8 +24,9 @@ function drawBlurredLambda() {
   ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
 
   for (let i = 0; i < 10; i++) {
-    ctx.fillText(lambdaSymbol, centerX, centerY);
+      ctx.fillText(lambdaSymbol, centerX, centerY);
   }
+  phase = "pixelation";
 }
 
 // Pixelize the lambda gradually
@@ -39,19 +41,20 @@ function pixelizeLambda() {
         ctx.fillRect(x, y, pixelSize, pixelSize);
       }
     }
-    // Gradually refine the resolution
-    pixelSize -= 2;
   }
-  if (pixelSize <= 2) {
-    // Clear pixelation interval
-    clearInterval(pixelInterval);
+  // Gradually refine the resolution
+  pixelSize -= 2;
+    if (pixelSize <= 2) {
+	phase = "clearLambda";
+	// Clear pixelation interval
+	clearInterval(pixelInterval);
+	
+	// Finalize by drawing the clear lambda
+	drawClearLambda();
 
-    // Finalize by drawing the clear lambda
-    drawClearLambda();
-
-    // Reveal the name after lambda is clear
-    setTimeout(showName, 500); // Small delay before name appears
-  }
+	// Reveal the name after lambda is clear
+	setTimeout(showName, 500); // Small delay before name appears
+    }
 }
 
 // Draw the final, clear lambda symbol
@@ -70,11 +73,28 @@ function showName() {
   nameText.style.opacity = "1"; // Trigger fade-in animation
 }
 
+// Main animation loop
+function animate() {
+  switch (phase) {
+    case "blur":
+      drawBlurredLambda();
+      break;
+    case "pixelation":
+      pixelizeLambda();
+      break;
+    case "clearLambda":
+      drawClearLambda();
+      break;
+  }
+
+  // Continue the animation loop
+  requestAnimationFrame(animate);
+}
+
 // Event listeners and initialization
 window.addEventListener("resize", () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  drawBlurredLambda();
 });
 
 // Start the animation
