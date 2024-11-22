@@ -7,15 +7,15 @@ canvas.height = window.innerHeight;
 // Lambda symbol and font settings
 const lambdaSymbol = "λ";
 const fontSize = 200; // Customize size
-const pixelSize = 20; // Pixelation size
-let pixelInterval;
-let noiseInterval;
+const initialPixelSize = 20; // Initial pixel size
+let pixelSize = initialPixelSize; // Current pixelation size
+let pixelInterval; // Interval for pixelation effect
 
 // Initialize lambda drawing position
 const centerX = canvas.width / 2;
 const centerY = canvas.height / 2 - fontSize / 2;
 
-// Draw blurred lambda
+// Draw blurred lambda (initial state)
 function drawBlurredLambda() {
   ctx.font = `${fontSize}px monospace`;
   ctx.textAlign = "center";
@@ -31,6 +31,7 @@ function drawBlurredLambda() {
 function pixelizeLambda() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  // Draw the pixelated lambda
   for (let x = centerX - 100; x <= centerX + 100; x += pixelSize) {
     for (let y = centerY - 100; y <= centerY + 100; y += pixelSize) {
       if (Math.random() < 0.5) {
@@ -40,13 +41,28 @@ function pixelizeLambda() {
     }
   }
 
-  pixelSize -= 2; // Gradually refine the resolution
+  // Gradually refine the resolution
+  pixelSize -= 2;
   if (pixelSize <= 2) {
+    // Clear pixelation interval
     clearInterval(pixelInterval);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillText(lambdaSymbol, centerX, centerY);
-    showName(); // Reveal name after pixelation
+
+    // Finalize by drawing the clear lambda
+    drawClearLambda();
+
+    // Reveal the name after lambda is clear
+    setTimeout(showName, 500); // Small delay before name appears
   }
+}
+
+// Draw the final, clear lambda symbol
+function drawClearLambda() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+  ctx.font = `${fontSize}px monospace`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillStyle = "white";
+  ctx.fillText(lambdaSymbol, centerX, centerY);
 }
 
 // Display the name with a noise fade-in effect
