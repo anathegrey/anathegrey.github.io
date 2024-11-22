@@ -1,100 +1,114 @@
-// Get the canvas and the context
+// Get the canvas and its context
 const canvas = document.getElementById("backgroundCanvas");
 const ctx = canvas.getContext("2d");
 
-// Set the canvas size
+// Set canvas size to match the window size
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-// Lambda symbol and constants
-const lambdaSymbol = "λ"; // Symbol to display
+// Constants
+const lambdaSymbol = "λ"; // Lambda symbol
 const fontSize = 200; // Font size for the lambda
-const pixelationSpeed = 100; // Speed of pixelation in milliseconds
-let pixelSize = 40; // Starting pixel size for pixelation
-const pixelationThreshold = 2; // Minimum pixel size before clearing
-const pixelationAreaSize = fontSize * 2; // Constrain pixelation area
+const blurDuration = 2000; // Blur phase duration in milliseconds
+const pixelationDuration = 2000; // Pixelation phase duration in milliseconds
+const pixelationStep = 40; // Starting size for pixelation
+let pixelSize = pixelationStep;
 
-// Center coordinates
+// Lambda center position
 const centerX = canvas.width / 2;
 const centerY = canvas.height / 2;
 
-// Animation phases
-let pixelationComplete = false;
+// Phase management
+let phase = "blur"; // Current animation phase
+let startTime = Date.now(); // Start time of the animation
 
-// Set up the canvas
-function setupCanvas() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.font = `${fontSize}px monospace`;
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillStyle = "white";
+// Set up initial canvas context
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
+ctx.font = `${fontSize}px monospace`;
+
+// Draw the blur effect
+function drawBlur() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Create a radial gradient to simulate blur
+  const gradient = ctx.createRadialGradient(centerX, centerY, 50, centerX, centerY, 200);
+  gradient.addColorStop(0, "white");
+  gradient.addColorStop(1, "black");
+
+  // Fill the canvas with the gradient
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Check if blur phase is done
+  if (Date.now() - startTime >= blurDuration) {
+    phase = "pixelation"; // Move to the next phase
+    startTime = Date.now(); // Reset the timer
+  }
 }
 
-// Draw the pixelated lambda progressively becoming clearer
-function drawLambdaUnpixelizing() {
-    ctx.clearRect(
-        centerX - pixelationAreaSize / 2,
-        centerY - pixelationAreaSize / 2,
-        pixelationAreaSize,
-        pixelationAreaSize
-    );
+// Draw the pixelated lambda effect
+function drawPixelatedLambda() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Loop through a constrained pixelation area
-    for (let x = -pixelationAreaSize / 2; x < pixelationAreaSize / 2; x += pixelSize) {
-        for (let y = -pixelationAreaSize / 2; y < pixelationAreaSize / 2; y += pixelSize) {
-            if (Math.random() < 0.5) { // Randomly decide to draw this pixel
-                ctx.fillText(
-                    lambdaSymbol,
-                    centerX + x,
-                    centerY + y
-                );
-            }
-        }
+  // Draw the lambda symbol as a series of pixels
+  for (let x = -fontSize / 2; x < fontSize / 2; x += pixelSize) {
+    for (let y = -fontSize / 2; y < fontSize / 2; y += pixelSize) {
+      if (Math.random() > 0.5) {
+        ctx.fillStyle = "white";
+        ctx.fillText(lambdaSymbol, centerX + x, centerY + y);
+      }
     }
+  }
 
-    // Gradually reduce the pixel size, making the lambda clearer
-    pixelSize -= 2;
-    if (pixelSize <= pixelationThreshold) {
-        clearInterval(pixelInterval); // Stop the pixelation animation
-        pixelationComplete = true;
-        drawLambdaClear(); // Transition to the clear lambda
-    }
+  // Gradually reduce pixel size to make the lambda clearer
+  pixelSize -= 2;
+  if (pixelSize <= 2) {
+    phase = "clearLambda"; // Transition to the clear lambda phase
+    startTime = Date.now(); // Reset the timer
+    pixelSize = pixelationStep; // Reset pixel size for any future runs
+  }
 }
 
-// Draw the clear lambda symbol
-function drawLambdaClear() {
-    ctx.clearRect(
-        centerX - pixelationAreaSize / 2,
-        centerY - pixelationAreaSize / 2,
-        pixelationAreaSize,
-        pixelationAreaSize
-    );
-    ctx.fillText(lambdaSymbol, centerX, centerY);
+// Draw the clear lambda
+function drawClearLambda() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // After a delay, show the name text
-    setTimeout(() => {
-        showNameText();
-    }, 1000); // 1-second delay before showing the name
+  // Draw the fully clear lambda symbol
+  ctx.fillStyle = "white";
+  ctx.fillText(lambdaSymbol, centerX, centerY);
+
+  // Transition to the name display phase after a short delay
+  if (Date.now() - startTime >= 1000) {
+    phase = "name";
+    document.getElementById("nameText").classList.remove("hidden");
+    document.getElementById("nameText").style.animation = "noiseEffect 0.5s infinite";
+  }
 }
 
-// Show the name text with noise effect
-function showNameText() {
-    const nameText = document.getElementById("nameText");
-    nameText.classList.remove("hidden"); // Reveal the text
-    nameText.style.opacity = "1"; // Ensure it's visible
+// Main animation loop
+function animate() {
+  switch (phase) {
+    case "blur":
+      drawBlur();
+      break;
+    case "pixelation":
+      drawPixelatedLambda();
+      break;
+    case "clearLambda":
+      drawClearLambda();
+      break;
+  }
+
+  // Continue the animation loop
+  requestAnimationFrame(animate);
 }
 
 // Handle window resizing
 window.addEventListener("resize", () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    setupCanvas();
-
-    if (pixelationComplete) {
-        drawLambdaClear(); // Redraw the clear lambda if pixelation is done
-    }
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 });
 
-// Start the pixelation process
-setupCanvas();
-const pixelInterval = setInterval(drawLambdaUnpixelizing, pixelationSpeed);
+// Start the animation
+animate();

@@ -1,58 +1,57 @@
-/* General Styles */
+/* General styles for the page */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html, body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: black;
-    color: white;
-    font-family: monospace;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black; /* Black background */
+  font-family: monospace;
 }
 
-/* Animation Container */
-#animationContainer {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
-/* Canvas for the Lambda Animation */
+/* Canvas for the animation */
 #backgroundCanvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
-/* Name Text */
+/* Name text styling */
 #nameText {
-    position: absolute;
-    bottom: 10%;
-    width: 100%;
-    text-align: center;
-    font-size: 2.5rem;
-    color: white;
+  position: absolute;
+  bottom: 10%;
+  width: 100%;
+  text-align: center;
+  font-size: 2rem;
+  color: white;
+  opacity: 0;
+  animation: noiseFadeIn 3s ease forwards;
+}
+
+/* Keyframes for the noise effect */
+@keyframes noiseEffect {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes noiseFadeIn {
+  from {
     opacity: 0;
-    animation: flicker 5s infinite;
-}
-
-/* Hidden Element (Before Showing the Name) */
-.hidden {
-    display: none;
-}
-
-/* Flickering Animation for Name Text */
-@keyframes flicker {
-    0% { opacity: 1; }
-    50% { opacity: 0.5; }
-    100% { opacity: 1; }
+  }
+  to {
+    opacity: 1;
+  }
 }
