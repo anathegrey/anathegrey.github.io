@@ -13,7 +13,7 @@ html, body {
   justify-content: center;
   align-items: center;
   background-color: black; /* Black background */
-  font-family: monospace;
+  font-family: "Georgia", serif;
 }
 
 /* Animation Container */
@@ -41,15 +41,51 @@ html, body {
   font-size: 2rem;
   color: white;
   opacity: 0; /* Initially hidden */
-  animation: noiseFadeIn 3s forwards; /* Fade-in effect */
+  animation: glitch-skew 1s infinite linear alternate-reverse;
+
+  &::before {
+    @include glitchCopy;
+    left: 2px;
+    text-shadow: -2px 0 #ff00c1;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim 5s infinite linear alternate-reverse;
+  }
+
+  &::after {
+    @include glitchCopy;
+    left: -2px;
+    text-shadow: -2px 0 #ff00c1, 2px 2px #ff00c1;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim2 5s infinite linear alternate-reverse;
+  }
 }
 
-/* Keyframes for the fade-in effect */
-@keyframes noiseFadeIn {
-  from {
-    opacity: 0;
+/* Keyframes for the glitch effect */
+@keyframes glitch-anim {
+  $steps: 20;
+  @for $i from 0 to $steps {
+    #{percentage($i*(1/$steps))} {
+      clip: rect(random(100) + px, 9999px, random(100) + px, 0);
+      transform: skew((random(100) / 100) + deg);
+    }
   }
-  to {
-    opacity: 1;
+}
+
+@keyframes glitch-anim2 {
+  $steps: 20;
+  @for $i from 0 to $steps {
+    #{percentage($i*(1/$steps))} {
+      clip: rect(random(100) + px, 9999px, random(100) + px, 0);
+      transform: skew((random(100) / 100) + deg);
+    }
+  }
+}
+
+@keyframes glitch-skew {
+  $steps: 10;
+  @for $i from 0 to $steps {
+    #{percentage($i*(1/$steps))} {
+      transform: skew((random(10) - 5) + deg);
+    }
   }
 }
