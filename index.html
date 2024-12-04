@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>anathegrey</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Main Info Folder -->
+<div id="folderContainer">
+  <img src="Icons/folder-icon.png" alt="Folder" id="folderIcon">
+  <div id="folderText">info</div>
+</div>
+
+<!-- Info Folder Window -->
+<div id="folderWindow" class="folder-window draggable" style="display: none;">
+  <div id="folderHeader">
+      <span id="folderTitle">info</span>
+      <button id="closeFolder">X</button>
+  </div>
+  <div id="folderContent">
+      <p>Test, test, test.</p>
+
+      <!-- Publications Folder -->
+      <div class="nested-folder" id="publicationsFolder">
+          <img src="Icons/folder-icon.png" alt="Publications Folder" id="nestedFolderIcon">
+          <div id="nestedFolderText">publications</div>
+      </div>
+  </div>
+</div>
+
+<!-- Publications Folder Window -->
+<div id="nestedFolderWindow" class="folder-window draggable" style="display: none;">
+  <div id="nestedFolderHeader">
+      <span id="nestedFolderTitle">publications</span>
+      <button id="nestedCloseFolder">X</button>
+  </div>
+  <div id="nestedFolderContent">
+      <p>Test, test, test.</p>
+  </div>
+</div>
+  <!-- Toolbar --> 
+  <div id="toolbar">
+    <a href="https://github.com/anathegrey" target="_blank" class="toolbarIcon">
+      <img src="Icons/github-icon.png" alt="GitHub">
+    </a>
+    <a href="https://orcid.org/0009-0007-7860-7311" target="_blank" class="toolbarIcon">
+      <img src="Icons/orcid-icon.png" alt="ORCID">
+    </a>
+  </div>
+
+    <div id="animationContainer">
+        <canvas id="backgroundCanvas"></canvas>
+        <div id="nameText" data-name="Ana Jorge Almeida">Ana Jorge Almeida</div>
+    </div>
+    <script src="script.js" defer></script>
+</body>
+</html>

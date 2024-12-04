@@ -1,0 +1,277 @@
+/* General styles for the page */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black; /* Black background */
+  font-family: "Georgia", serif;
+}
+
+/* Animation Container */
+#animationContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Canvas for the animation */
+#backgroundCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Name text styling */
+#nameText {
+  position: absolute;
+  top: calc(50% + 120px); /* Position below the lambda */
+  width: 100%;
+  text-align: center;
+  font-size: 2rem;
+  color: white;
+  opacity: 0; /* Initially hidden */
+  animation: fadeIn 1.5s ease-in forwards; /* Fade-in effect */
+  overflow: hidden; /* Hide clipped portions of text */
+}
+
+#nameText::before,
+#nameText::after {
+  content: attr(data-name); /* Same text as #nameText */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: white;
+}
+
+#nameText::before {
+  text-shadow: -2px 0 #ff00c1, 2px 2px #00fff7; /* Glitchy shadow effect */
+  clip-path: inset(0 50% 50% 0); /* Slice the top-half of the text */
+  animation: glitch 2s infinite;
+}
+
+#nameText::after {
+  text-shadow: -2px 0 #ff00c1, 2px 2px #00fff7; /* Glitchy shadow effect */
+  clip-path: inset(50% 0 0 0); /* Slice the bottom-half of the text */
+  animation: glitch-alt 2s infinite;
+}
+
+/* Glitch keyframes */
+@keyframes glitch {
+  0%, 100% {
+    clip-path: inset(0 50% 50% 0);
+    transform: translate(0);
+  }
+  25% {
+    clip-path: inset(10% 20% 40% 20%);
+    transform: translate(-2px, -2px);
+  }
+  50% {
+    clip-path: inset(0 40% 60% 10%);
+    transform: translate(2px, 0);
+  }
+  75% {
+    clip-path: inset(5% 30% 55% 30%);
+    transform: translate(-2px, 2px);
+  }
+}
+
+@keyframes glitch-alt {
+  0%, 100% {
+    clip-path: inset(50% 0 0 0);
+    transform: translate(0);
+  }
+  25% {
+    clip-path: inset(60% 20% 10% 20%);
+    transform: translate(2px, 2px);
+  }
+  50% {
+    clip-path: inset(40% 30% 20% 10%);
+    transform: translate(-2px, 0);
+  }
+  75% {
+    clip-path: inset(55% 10% 15% 10%);
+    transform: translate(2px, -2px);
+  }
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Folder icon and text container */
+#folderContainer {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  text-align: center;
+  z-index: 10;
+}
+
+#folderIcon {
+  width: 50px;
+  height: 50px;
+}
+
+#folderText {
+  margin-top: 5px;
+  color: white;
+  font-size: 14px;
+}
+
+/* Folder window */
+#folderWindow {
+  top: 100px;
+  left: 50px;
+  width: 700px;
+  height: 600px;
+  background: black;
+  border: 0.5px solid #ccc;
+  /*border-radius: 10px;*/
+  display: none;
+  color: white;
+  z-index: 20;
+}
+
+#folderHeader {
+  background: #808080;
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#closeFolder {
+  background: #707070;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+/* Style for nested folder inside the main folder */
+.nested-folder {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.nested-folder img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.nested-folder div {
+  font-size: 14px;
+  color: white;
+}
+
+/* Style for Publications Folder Window */
+#nestedFolderWindow {
+  position: absolute;
+  top: 100px;
+  left: 50px;
+  width: 700px;
+  height: 600px;
+  background: black;
+  border: 0.5px solid #ccc;
+  /*border-radius: 10px;*/
+  display: none;
+  color: white;
+  z-index: 20;
+}
+
+#nestedFolderHeader {
+  background: #808080;
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#nestedFolderContent {
+  padding: 10px;
+}
+
+#nestedCloseFolder {
+  background: #707070;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.draggable {
+  cursor: move;
+  position: absolute; /* Required for dragging */
+}
+
+/* Toolbar container */
+#toolbar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  padding: 10px 40px;
+  border-radius: 20px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.4); /* Subtle shadow for depth */
+  backdrop-filter: blur(10px); /* Frosted glass effect (optional) */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border for definition */
+
+  z-index: 1000;
+}
+
+/* Toolbar icons */
+.toolbarIcon img {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transition: transform 0.2s, filter 0.2s;
+}
+
+.toolbarIcon img:hover {
+  transform: scale(1.2); /* Enlarge slightly on hover */
+  filter: brightness(1.2);
+}
+
+
+/* Hidden Class */
+.hidden {
+  display: none;
+}
+
+#folderContainer, #toolbar {
+  opacity: 0;
+  transition: opacity 5.3s ease;
+}
