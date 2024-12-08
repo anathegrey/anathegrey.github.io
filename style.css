@@ -275,3 +275,55 @@ html, body {
   opacity: 0;
   transition: opacity 5.3s ease;
 }
+
+.citation {
+  display: flex;
+  align-items: flex-start;
+  margin: 15px 0;
+  font-family: "Georgia", serif;
+}
+
+.citation-year {
+  font-weight: bold;
+  margin-right: 10px;
+  font-size: 1rem;
+  color: #858585;
+}
+
+.citation-content {
+  flex: 1;
+}
+
+.citation-title a {
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #ffffff;
+  transition: color 0.2s;
+}
+
+.citation-title a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.citation-authors {
+  font-size: 0.9rem;
+  color: #858585;
+  margin: 5px 0;
+}
+
+.citation-authors a {
+  text-decoration: none;
+  color: #858585;
+}
+
+.citation-authors a:hover {
+  text-decoration: underline;
+}
+
+.citation-details {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #666;
+}
