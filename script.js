@@ -6,10 +6,10 @@ canvas.height = window.innerHeight;
 
 // Lambda symbol and font settings
 const lambdaSymbol = "λ";
-const fontSize = 200; // Customize size
-const initialPixelSize = 20; // Initial pixel size
-let pixelSize = initialPixelSize; // Current pixelation size
-let pixelInterval; // Interval for pixelation effect
+const fontSize = 200; 
+const initialPixelSize = 20;
+let pixelSize = initialPixelSize; 
+let pixelInterval; 
 let pixelOpacity = 0.1;
 let phase = "pixelation";
 
@@ -19,14 +19,14 @@ const centerY = canvas.height / 2;
 
 
 // Initialize animation parameters
-let transitionProgress = 0; // Tracks progress from 0 (scattered) to 1 (lambda shape)
+let transitionProgress = 0; 
 
 // Adjust pixelizeLambda to smoothly transition to lambda shape
 function pixelizeLambda() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Gradually reveal the lambda shape
-  const easedProgress = easeInOut(transitionProgress); // Smooth progress
+  const easedProgress = easeInOut(transitionProgress); 
   /*pixelMap.forEach(({ x: targetX, y: targetY }) => {
     // Calculate current pixel position based on progress
     const randomX = Math.random() * canvas.width;
@@ -55,7 +55,7 @@ function pixelizeLambda() {
   if (pixelSize <= 0.3) {
     clearInterval(pixelInterval);
     drawClearLambda(); // Draw final lambda
-    setTimeout(showName, 5000); // Show name after a short delay
+    setTimeout(showName, 5000); // Show name after delay
   }
 }
 
@@ -80,7 +80,7 @@ pixelInterval = setInterval(pixelizeLambda, 100);
 // Display the name with glitch effect
 function showName() {
   const nameText = document.getElementById("nameText");
-  nameText.style.opacity = "1"; // Trigger fade-in animation
+  nameText.style.opacity = "1"; // Fade-in animation
 }
 
 // Select the folder and window elements
@@ -91,19 +91,19 @@ const closeFolderButton = document.getElementById('closeFolder');
 // Open the folder window when the folder is clicked
 folderContainer.addEventListener('click', () => {
   console.log('Folder clicked!');
-  folderWindow.style.display = 'block'; // Show the folder window
+  folderWindow.style.display = 'block'; 
 });
 
 // Close the folder window when the "X" button is clicked
 closeFolderButton.addEventListener('click', () => {
   console.log('Close button clicked!');
-  folderWindow.style.display = 'none'; // Hide the folder window
+  folderWindow.style.display = 'none'; 
 });
 
 setTimeout(() => {
   document.getElementById('folderContainer').style.opacity = '1';
   document.getElementById('toolbar').style.opacity = '1';
-}, 1000); // Adjust timing based on name animation
+}, 1000); 
 
 // Make an element draggable
 function makeDraggable(draggableElement) {
@@ -162,12 +162,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Toggle Publications Folder
   publicationsFolder.addEventListener("click", () => {
-    // Get the current position of the Info folder window
     const infoWindowRect = folderWindow.getBoundingClientRect();
 
-    // Set the Publications folder window position slightly to the right
-    nestedFolderWindow.style.left = `${infoWindowRect.right - 350}px`; // 20px offset to the right
-    nestedFolderWindow.style.top = `${infoWindowRect.top + 50}px`; // Align vertically with the Info folder
+    nestedFolderWindow.style.left = `${infoWindowRect.right - 350}px`; 
+    nestedFolderWindow.style.top = `${infoWindowRect.top + 50}px`; 
 
     // Display the Publications folder window
     nestedFolderWindow.style.display = "block";
@@ -177,7 +175,6 @@ document.addEventListener("DOMContentLoaded", () => {
       nestedFolderWindow.style.display = "none";
   });
 
-  // Make folders draggable
   makeDraggable(folderWindow);
   makeDraggable(nestedFolderWindow);
 });

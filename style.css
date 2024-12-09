@@ -12,7 +12,7 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: black; /* Black background */
+  background-color: black;
   font-family: "Georgia", serif;
 }
 
@@ -41,7 +41,7 @@ html, body {
   font-size: 2rem;
   color: white;
   opacity: 0; /* Initially hidden */
-  animation: fadeIn 1.5s ease-in forwards; /* Fade-in effect */
+  animation: fadeIn 1.5s ease-in forwards;
   overflow: hidden; /* Hide clipped portions of text */
 }
 
@@ -63,8 +63,8 @@ html, body {
 }
 
 #nameText::after {
-  text-shadow: -2px 0 #ff00c1, 2px 2px #00fff7; /* Glitchy shadow effect */
-  clip-path: inset(50% 0 0 0); /* Slice the bottom-half of the text */
+  text-shadow: -2px 0 #ff00c1, 2px 2px #00fff7; 
+  clip-path: inset(50% 0 0 0); 
   animation: glitch-alt 2s infinite;
 }
 
@@ -178,6 +178,7 @@ html, body {
   align-items: center;
   margin: 10px 0;
   cursor: pointer;
+  padding: 20px;
 }
 
 .nested-folder img {
@@ -229,7 +230,7 @@ html, body {
 
 .draggable {
   cursor: move;
-  position: absolute; /* Required for dragging */
+  position: absolute; /* Dragging */
 }
 
 /* Toolbar container */
@@ -244,11 +245,9 @@ html, body {
   display: flex;
   gap: 15px;
   align-items: center;
-
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.4); /* Subtle shadow for depth */
-  backdrop-filter: blur(10px); /* Frosted glass effect (optional) */
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border for definition */
-
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.4); 
+  backdrop-filter: blur(10px); 
+  border: 1px solid rgba(255, 255, 255, 0.2); 
   z-index: 1000;
 }
 
@@ -261,7 +260,7 @@ html, body {
 }
 
 .toolbarIcon img:hover {
-  transform: scale(1.2); /* Enlarge slightly on hover */
+  transform: scale(1.2); /* Enlarge on hover */
   filter: brightness(1.2);
 }
 
@@ -327,3 +326,33 @@ html, body {
   font-style: italic;
   color: #666;
 }
+
+.photo-text-container {
+  display: flex;                
+  align-items: flex-start;      
+  gap: 20px;                    
+  padding: 20px;                
+}
+
+.photo {
+  width: 150px;                
+  height: auto;                 
+  margin: 0;                   
+}
+
+.description {
+  flex: 1;                      
+  color: white;               
+  line-height: 1.6;            
+}
+
+.description h3 {
+  margin: 0;                   
+  font-size: 1.2em;          
+  font-weight: bold;            
+}
+
+.description p {
+  margin: 5px 0;                /* Spacing between paragraphs */
+}
+
