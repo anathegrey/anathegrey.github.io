@@ -1,122 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ana Jorge Almeida</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ana Jorge Almeida</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <!-- Main Info Folder -->
-<div id="folderContainer">
-  <img src="Icons/folder-icon.png" alt="Folder" id="folderIcon">
-  <div id="folderText">info</div>
-</div>
+  <div id="folderContainer">
+    <img src="Icons/folder-icon.png" alt="Folder" id="folderIcon" />
+    <div id="folderText">info</div>
+  </div>
 
-<!-- Info Folder Window -->
-<div id="folderWindow" class="folder-window draggable" style="display: none;">
-  <div id="folderHeader">
+  <!-- Info Folder Window -->
+  <div id="folderWindow" class="folder-window draggable" style="display: none;">
+    <div id="folderHeader">
       <span id="folderTitle">info</span>
       <button id="closeFolder">X</button>
-  </div>
-  <div id="folderContent" >
-    <div class="photo-text-container">
-      <img src="Photo/Photo.jpg" alt="Photo" class="photo">
-      <div class="description">
-        <h3>DCC-FCUP &#x2223; LIACC</h3>
-        <p>functional programming, λ-calculus, type systems, resource calculi.</p>
-      </div>
     </div>
-      <!-- Publications Folder -->
-      <div class="nested-folder" id="publicationsFolder">
-          <img src="Icons/folder-icon.png" alt="Publications Folder" id="nestedFolderIcon">
-          <div id="nestedFolderText">publications</div>
+    <div id="folderContent">
+      <div class="photo-text-container">
+        <img src="Photo/Photo.jpg" alt="Photo" class="photo" />
+        <div class="description">
+          <h3>DCC-FCUP &#x2223; LIACC</h3>
+          <p>functional programming, λ-calculus, type systems, resource calculi.</p>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
 
-<!-- Publications Folder Window -->
-<div id="nestedFolderWindow" class="folder-window draggable" style="display: none;">
-  <div id="nestedFolderHeader">
+      <!-- Publications Folder (clickable) -->
+      <div class="nested-folder" id="publicationsFolder">
+        <img src="Icons/folder-icon.png" alt="Publications Folder" id="nestedFolderIcon" />
+        <div id="nestedFolderText">publications</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Publications Folder Window (Content will be loaded dynamically) -->
+  <div id="nestedFolderWindow" class="folder-window draggable" style="display: none;">
+    <div id="nestedFolderHeader">
       <span id="nestedFolderTitle">publications</span>
       <button id="nestedCloseFolder">X</button>
+    </div>
+    <div id="nestedFolderContent">
+      <!-- Content loaded from publications.html -->
+    </div>
   </div>
-  <div id="nestedFolderContent">
 
-      <!-- Extended Abstracts --> 
-      <h3 style="color: #c7c3c3; font-weight: bold; margin-top: 20px;">Extended abstracts</h3>
-      <div class="citation">
-        <div class="citation-year">2025</div>
-        <div class="citation-details">
-          <div class="citation-title">
-            <a href="https://msp.cis.strath.ac.uk/types2025/TYPES2025-book-of-abstract.pdf#page=42" target="_blank" class="fullcite">
-              Expansion in a Calculus with Explicit Substitutions 
-            </a>
-          </div>
-          <div class="citation-authors">
-            Ana Jorge Almeida, Sandra Alves, Mário Florido
-          </div>
-          <div class="citation-event">
-            <i>TYPES: 31st International Conference on Types for Proofs and Programs</i>
-          </div>
-        </div>
-      </div>
-
-      <!-- Short papers --> 
-      <h3 style="color: #c7c3c3; font-weight: bold; margin-top: 20px;">Short papers</h3>
-      <div class="citation">
-        <div class="citation-year">2024</div>
-        <div class="citation-details">
-          <div class="citation-title">
-            <a href="https://www.inforum.pt/static/files/papers/INForum_2024_paper_29.pdf" target="_blank" class="fullcite">
-              Linear Calculi for Programming Languages: a comparison approach
-            </a>
-          </div>
-          <div class="citation-authors">
-            Ana Jorge Almeida, Sandra Alves, Mário Florido
-          </div>
-          <div class="citation-event">
-            <i>INForum: Informatics symposium</i>
-          </div>
-        </div>
-      </div>
-
-      <!-- MSc Thesis -->
-      <h3 style="color: #c7c3c3; font-weight: bold; margin-top: 20px;">MSc Thesis</h3>
-      <div class="citation">
-        <div class="citation-year">2024</div>
-        <div class="citation-details">
-          <div class="citation-title">
-            <a href="https://repositorio-aberto.up.pt/bitstream/10216/164137/2/700562.pdf" target="_blank" class="fullcite">
-              Linear Calculi: a comparison approach
-            </a>
-          </div>
-          <div class="citation-authors">
-            Supervised by Mário Florido and Sandra Alves
-          </div>
-        </div>
-      </div>
-
-  </div>
-</div>
-  <!-- Toolbar --> 
+  <!-- Toolbar -->
   <div id="toolbar">
     <a href="https://orcid.org/0009-0007-7860-7311" target="_blank" class="toolbarIcon">
-      <img src="Icons/orcid-icon.png" alt="ORCID">
+      <img src="Icons/orcid-icon.png" alt="ORCID" />
     </a>
     <a href="https://github.com/anathegrey" target="_blank" class="toolbarIcon">
-      <img src="Icons/github-icon.png" alt="GitHub">
+      <img src="Icons/github-icon.png" alt="GitHub" />
     </a>
     <a href="https://app.thestorygraph.com/profile/anathegrey" target="_blank" class="toolbarIcon">
-      <img src="Icons/storygraph.png" alt="Storygraph">
+      <img src="Icons/storygraph.png" alt="Storygraph" />
     </a>
   </div>
 
-    <div id="animationContainer">
-        <canvas id="backgroundCanvas"></canvas>
-        <div id="nameText" data-name="Ana Jorge Almeida">Ana Jorge Almeida</div>
-    </div>
-    <script src="script.js" defer></script>
+  <div id="animationContainer">
+    <canvas id="backgroundCanvas"></canvas>
+    <div id="nameText" data-name="Ana Jorge Almeida">Ana Jorge Almeida</div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="script.js" defer></script>
 </body>
 </html>

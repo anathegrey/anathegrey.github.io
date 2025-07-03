@@ -178,3 +178,13 @@ document.addEventListener("DOMContentLoaded", () => {
   makeDraggable(folderWindow);
   makeDraggable(nestedFolderWindow);
 });
+
+// Load publications.html into the nestedFolderContent div
+document.addEventListener("DOMContentLoaded", () => {
+  fetch('publications.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('nestedFolderContent').innerHTML = data;
+    })
+    .catch(error => console.error('Error loading publications:', error));
+});
