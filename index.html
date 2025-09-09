@@ -7,13 +7,14 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Main Info Folder -->
-  <div id="folderContainer">
-    <img src="Icons/folder-icon.png" alt="Folder" id="folderIcon" />
-    <div id="folderText">info</div>
+
+  <!-- Text-based navigation links -->
+  <div id="menuLinks">
+    <span id="infoLink">info</span>
+    <span id="publicationsLink">publications</span>
   </div>
 
-  <!-- Info Folder Window -->
+  <!-- Info Window -->
   <div id="folderWindow" class="folder-window draggable" style="display: none;">
     <div id="folderHeader">
       <span id="folderTitle">info</span>
@@ -23,20 +24,14 @@
       <div class="photo-text-container">
         <img src="Photo/Photo.jpg" alt="Photo" class="photo" />
         <div class="description">
-          <h3>DCC-FCUP &#x2223; LIACC</h3>
+          <h3><a href="https://www.dcc.fc.up.pt/site/">DCC-FCUP</a> &#x2223; <a href="https://liacc.fe.up.pt/liaccwp/">LIACC</a></h3>
           <p>functional programming, λ-calculus, type systems, resource calculi.</p>
         </div>
-      </div>
-
-      <!-- Publications Folder (clickable) -->
-      <div class="nested-folder" id="publicationsFolder">
-        <img src="Icons/folder-icon.png" alt="Publications Folder" id="nestedFolderIcon" />
-        <div id="nestedFolderText">publications</div>
       </div>
     </div>
   </div>
 
-  <!-- Publications Folder Window (Content will be loaded dynamically) -->
+  <!-- Publications Window -->
   <div id="nestedFolderWindow" class="folder-window draggable" style="display: none;">
     <div id="nestedFolderHeader">
       <span id="nestedFolderTitle">publications</span>
@@ -63,6 +58,10 @@
   <div id="animationContainer">
     <canvas id="backgroundCanvas"></canvas>
     <div id="nameText" data-name="Ana Jorge Almeida">Ana Jorge Almeida</div>
+    <div id="contactInfo">
+      <p>anaj.almeida [at] fc.up.pt</p>
+      <p>Universidade do Porto</p>
+    </div>
   </div>
 
   <!-- Scripts -->
