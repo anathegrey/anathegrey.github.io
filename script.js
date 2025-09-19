@@ -122,3 +122,31 @@ document.addEventListener("DOMContentLoaded", () => {
     .catch(error => console.error('Error loading publications:', error));
 });
 
+let highestZ = 30; // starting point above menu and other elements
+
+function bringToFront(element) {
+  highestZ++;
+  element.style.zIndex = highestZ;
+}
+
+// Attach click listeners to all windows
+document.querySelectorAll('#folderWindow, #nestedFolderWindow').forEach(win => {
+  win.addEventListener('mousedown', () => bringToFront(win));
+});
+
+// Example: when opening windows, also bring them to front
+function openWindow(id) {
+  const win = document.getElementById(id);
+  win.style.display = "block";
+  bringToFront(win);
+}
+
+// Example: open Info window
+document.getElementById("infoLink").addEventListener("click", () => {
+  openWindow("folderWindow");
+});
+
+// Example: open Publications window
+document.getElementById("publicationsLink").addEventListener("click", () => {
+  openWindow("nestedFolderWindow");
+});
