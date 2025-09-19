@@ -328,10 +328,20 @@ html, body {
   }
 }
 
+@media(max-width: 768px) {
+#animationContainer {
+position: fixed;
+bottom: 90px;
+top: auto;
+left: 0;
+width: 100%;
+}
+}
+
 @media (max-width: 768px) {
   #contactInfo {
     position: fixed;
-    bottom: 90px; /* above the toolbar */
+    bottom: 190px; /* above the toolbar */
     top: auto;
     left: 0;
     width: 100%;
