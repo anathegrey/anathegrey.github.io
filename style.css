@@ -310,38 +310,57 @@ html, body {
 /* mobile changes */
 
 @media (max-width: 768px) {
-  #folderWindow,
+   #folderWindow,
   #nestedFolderWindow {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    position: fixed !important;  /* fill viewport reliably */
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding-top: 56px;           /* leave room for the header (fixed) */
+    overflow-y: auto;
+    z-index: 9999 !important;    /* make sure they are above the toolbar */
     border-radius: 0;
-    padding-top: 50px; /* room for header */
-    z-index: 9999; /* make sure it's always on top */
+    box-sizing: border-box;
   }
 
+  /* make the header fixed to the top of the viewport (so it stays visible) */
   #folderHeader,
   #nestedFolderHeader {
-    height: 50px;
-    font-size: 1.2rem;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 56px !important;
+    z-index: 10000 !important;
+    padding: 0 14px !important;
   }
-}
 
-@media(max-width: 768px) {
-#animationContainer {
-position: fixed;
-bottom: 90px;
-top: auto;
-left: 0;
-width: 100%;
-}
-}
-
-@media (max-width: 768px) {
+  /* content area should not be hidden under fixed header:
+     nestedFolderContent is inside the window, but header is fixed,
+     so we add top padding to the content element itself */
+  #nestedFolderContent,
+  #folderContent {
+    padding-top: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 80px; /* room for toolbar */
+    margin-top: 56px;     /* ensure content sits below the fixed header */
+    box-sizing: border-box;
+  }
+  #animationContainer {
+    position: fixed;
+    bottom: 90px;
+    top: auto;
+    left: 0;
+    width: 100%;
+  }
   #contactInfo {
     position: fixed;
-    bottom: 190px; /* above the toolbar */
+    bottom: 150px; /* above the toolbar */
     top: auto;
     left: 0;
     width: 100%;
