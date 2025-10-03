@@ -175,6 +175,27 @@ html, body {
   z-index: 10;
 }
 
+#folderContent ul {
+  list-style: none;        /* remove default bullets */
+  margin-left: 20px;       /* indent list relative to paragraph */
+  padding-left: 0;
+}
+
+#folderContent li {
+  position: relative;
+  margin-bottom: 5px;
+  padding-left: 18px;      /* space for triangle */
+}
+
+#folderContent li::before {
+  content: "▶";            /* small triangle */
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #bf00ff;          /* purple triangle */
+  font-size: 0.8rem;
+}
+
 
 #closeFolder,
 #nestedCloseFolder {
@@ -204,9 +225,6 @@ html, body {
 #nestedFolderContent h3:first-of-type {
   margin-top: 0 !important;
 }
-
-
-
 
 /* Citations inside publications */
 .citation {
@@ -367,4 +385,3 @@ html, body {
     text-align: center;
   }
 }
-
