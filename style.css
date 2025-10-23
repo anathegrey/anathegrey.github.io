@@ -38,38 +38,48 @@ html, body {
   top: calc(50% + 120px);
   width: 100%;
   text-align: center;
-  font-size: 2rem;
-  color: white;
+  font-size: 2rem; 
+  font-family: "Garamond", "Georgia", serif;
+  letter-spacing: 1px;
+  color: #cfcfcf;
   opacity: 0;
-  animation: fadeIn 1.5s ease-in forwards;
-  overflow: hidden;
+  text-shadow:
+    0 0 4px #000,
+    0 0 12px #111,
+    0 0 18px #222;
+  animation: fadeIn 1.5s ease-in forwards, thunderWash 4s infinite;
+  z-index: 2
 }
 
-#nameText::before,
-#nameText::after {
-  content: attr(data-name);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  color: white;
-  opacity: 0;
-  animation: fadeIn 1.5s ease-in forwards, glitch 2s infinite 1.5s;
-}
-
-#nameText::before {
-  text-shadow: -2px 0 #ff00c1;
-}
-
-#nameText::after {
-  text-shadow: 2px 0 #bf00ff;
+@keyframes thunderWash {
+  0%, 20%, 50%, 80%, 100% {
+    color: #cfcfcf;
+    text-shadow:
+      0 0 4px #000,
+      0 0 12px #111,
+      0 0 18px #222;
+  }
+  9%, 10%, 21%, 22%, 51%, 52%, 81%, 82% {
+    color: #f5f5f5;
+    text-shadow:
+      0 0 20px #999,
+      0 0 50px #bbb,
+      0 0 100px #fff;
+  }
+  11%, 22%, 52%, 82% {
+    color: #bfbfbf;
+    text-shadow:
+      0 0 12px #666,
+      0 0 30px #888,
+      0 0 60px #aaa;
+  }
 }
 
 /* Contact info */
 #contactInfo {
+  z-index: 3;
   position: absolute;
-  top: calc(50% + 280px);
+  top: calc(50% + 220px);
   width: 100%;
   text-align: center;
   font-size: 1rem;
@@ -114,17 +124,17 @@ html, body {
   position: absolute;
   left: 0;
   top: 0;
-  color: #bf00ff;
+  color: #999;
   font-size: 16px;
   transition: transform 0.2s;
 }
 
 #menuLinks span:hover {
   font-weight: bold;
-  color: #bf00ff;
+  color: #999;
   text-decoration: underline;
   transform: translateX(4px);
-  text-shadow: 0 0 8px #bf00ff, 0 0 15px #ff00c1;
+  text-shadow: 0 0 8px #999, 0 0 15px #222;
 }
 
 #menuLinks span:hover::before {
@@ -192,7 +202,7 @@ html, body {
   position: absolute;
   left: 0;
   top: 0;
-  color: #bf00ff;          /* purple triangle */
+  color: #999;          /* purple triangle */
   font-size: 0.8rem;
 }
 
