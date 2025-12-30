@@ -1,0 +1,397 @@
+/* General styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  font-family: "Georgia", serif;
+}
+
+/* Animation Container */
+#animationContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Canvas */
+#backgroundCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Name text */
+#nameText {
+  position: absolute;
+  top: calc(50% + 120px);
+  width: 100%;
+  text-align: center;
+  font-size: 2rem; 
+  font-family: "Garamond", "Georgia", serif;
+  letter-spacing: 1px;
+  color: #cfcfcf;
+  opacity: 0;
+  text-shadow:
+    0 0 4px #000,
+    0 0 12px #111,
+    0 0 18px #222;
+  animation: fadeIn 1.5s ease-in forwards, thunderWash 4s infinite;
+  z-index: 2
+}
+
+@keyframes thunderWash {
+  0%, 20%, 50%, 80%, 100% {
+    color: #cfcfcf;
+    text-shadow:
+      0 0 4px #000,
+      0 0 12px #111,
+      0 0 18px #222;
+  }
+  9%, 10%, 21%, 22%, 51%, 52%, 81%, 82% {
+    color: #f5f5f5;
+    text-shadow:
+      0 0 20px #999,
+      0 0 50px #bbb,
+      0 0 100px #fff;
+  }
+  11%, 22%, 52%, 82% {
+    color: #bfbfbf;
+    text-shadow:
+      0 0 12px #666,
+      0 0 30px #888,
+      0 0 60px #aaa;
+  }
+}
+
+/* Contact info */
+#contactInfo {
+  z-index: 3;
+  position: absolute;
+  top: calc(50% + 220px);
+  width: 100%;
+  text-align: center;
+  font-size: 1rem;
+  color: #aaa;
+  opacity: 0;
+  animation: fadeIn 1.5s ease-in forwards;
+}
+
+#contactInfo a {
+  color: #aaa;
+  text-decoration: none;
+}
+
+#contactInfo a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* Navigation links */
+#menuLinks {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 10;
+}
+
+#menuLinks span {
+  font-size: 16px;
+  font-weight: normal;
+  color: white;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s, text-shadow 0.3s, font-weight 0.2s;
+  position: relative;
+  padding-left: 18px;
+}
+
+#menuLinks span::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #999;
+  font-size: 16px;
+  transition: transform 0.2s;
+}
+
+#menuLinks span:hover {
+  font-weight: bold;
+  color: #999;
+  text-decoration: underline;
+  transform: translateX(4px);
+  text-shadow: 0 0 8px #999, 0 0 15px #222;
+}
+
+#menuLinks span:hover::before {
+  transform: translateX(2px);
+}
+
+/* Folder windows (info + publications) */
+#folderWindow,
+#nestedFolderWindow {
+  top: 80px;
+  left: 50px;
+  width: 900px;
+  height: 700px;
+  background: #f9f7f2;
+  border: 1px solid #ccc;
+  display: none;
+  color: black;
+  z-index: 20;
+  position: absolute;
+  font-family: "Georgia", serif;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(0,0,0,0.02) 0,
+    rgba(0,0,0,0.02) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  overflow-y: auto;
+  padding-top: 40px; /* leave space for the header */
+  box-sizing: border-box;
+}
+
+/* Window Header */
+#folderHeader,
+#nestedFolderHeader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;        /* full width of the window */
+  height: 40px;       /* fixed header height */
+  background: #808080;
+  color: white;
+  padding: 0 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+#folderContent ul {
+  list-style: none;        /* remove default bullets */
+  margin-left: 20px;       /* indent list relative to paragraph */
+  padding-left: 0;
+}
+
+#folderContent li {
+  position: relative;
+  margin-bottom: 5px;
+  padding-left: 18px;      /* space for triangle */
+}
+
+#folderContent li::before {
+  content: "▶";            /* small triangle */
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #999;          /* purple triangle */
+  font-size: 0.8rem;
+}
+
+
+#closeFolder,
+#nestedCloseFolder {
+  background: #707070;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+#nestedFolderContent,
+#folderContent {
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Force black color for all section headings inside publications */
+#nestedFolderContent h3 {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #000 !important;   /* force black */
+  margin-top: 5px;          /* small spacing between sections */
+  margin-bottom: 5px;
+}
+
+/* Remove top margin for the first heading (Extended Abstracts) */
+#nestedFolderContent h3:first-of-type {
+  margin-top: 0 !important;
+}
+
+/* Citations inside publications */
+.citation {
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.citation-title {
+  font-weight: bold;
+  font-size: 1rem;
+  margin-bottom: 3px;
+  color: #000;
+}
+
+.citation-authors {
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom: 2px;
+}
+
+.citation-details {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #555;
+}
+
+/* Photo and description inside info window */
+.photo-text-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.photo {
+  width: 150px;
+  height: auto;
+  margin: 0;
+}
+
+.description {
+  flex: 1;
+  color: black;
+  line-height: 1.6;
+}
+
+.description h3 {
+  margin: 0;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.description p {
+  margin: 5px 0;
+}
+
+/* Toolbar */
+#toolbar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  padding: 10px 40px;
+  border-radius: 20px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.4); 
+  backdrop-filter: blur(10px); 
+  border: 1px solid rgba(255, 255, 255, 0.2); 
+  z-index: 1000;
+}
+
+.toolbarIcon img {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transition: transform 0.2s, filter 0.2s;
+}
+
+.toolbarIcon img:hover {
+  transform: scale(1.2);
+  filter: brightness(1.2);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, -2px); }
+  40% { transform: translate(2px, 2px); }
+  60% { transform: translate(-2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+/* mobile changes */
+
+@media (max-width: 768px) {
+   #folderWindow,
+  #nestedFolderWindow {
+    position: fixed !important;  /* fill viewport reliably */
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding-top: 56px;           /* leave room for the header (fixed) */
+    overflow-y: auto;
+    z-index: 9999 !important;    /* make sure they are above the toolbar */
+    border-radius: 0;
+    box-sizing: border-box;
+  }
+
+  /* make the header fixed to the top of the viewport (so it stays visible) */
+  #folderHeader,
+  #nestedFolderHeader {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 56px !important;
+    z-index: 10000 !important;
+    padding: 0 14px !important;
+  }
+
+  /* content area should not be hidden under fixed header:
+     nestedFolderContent is inside the window, but header is fixed,
+     so we add top padding to the content element itself */
+  #nestedFolderContent,
+  #folderContent {
+    padding-top: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 80px; /* room for toolbar */
+    margin-top: 56px;     /* ensure content sits below the fixed header */
+    box-sizing: border-box;
+  }
+  #animationContainer {
+    position: fixed;
+    bottom: 90px;
+    top: auto;
+    left: 0;
+    width: 100%;
+  }
+  #contactInfo {
+    position: fixed;
+    bottom: 150px; /* above the toolbar */
+    top: auto;
+    left: 0;
+    width: 100%;
+    text-align: center;
+  }
+}
