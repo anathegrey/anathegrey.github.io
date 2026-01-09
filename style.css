@@ -52,7 +52,7 @@ html, body {
 }
 
 @keyframes thunderWash {
-  0%, 20%, 50%, 80%, 100% {
+x  0%, 20%, 50%, 80%, 100% {
     color: #cfcfcf;
     text-shadow:
       0 0 4px #000,
@@ -120,7 +120,6 @@ html, body {
 }
 
 #menuLinks span::before {
-  content: "→";
   position: absolute;
   left: 0;
   top: 0;
@@ -130,20 +129,14 @@ html, body {
 }
 
 #menuLinks span:hover {
-  font-weight: bold;
   color: #999;
   text-decoration: underline;
-  transform: translateX(4px);
-  text-shadow: 0 0 8px #999, 0 0 15px #222;
 }
 
-#menuLinks span:hover::before {
-  transform: translateX(2px);
-}
-
-/* Folder windows (info + publications) */
-#folderWindow,
-#nestedFolderWindow {
+/* Folder windows (info + publications + teaching) */
+#infoWindow,
+#pubWindow,
+#teachWindow {
   top: 80px;
   left: 50px;
   width: 900px;
@@ -168,8 +161,9 @@ html, body {
 }
 
 /* Window Header */
-#folderHeader,
-#nestedFolderHeader {
+#infoHeader,
+#pubHeader,
+#teachHeader {
   position: absolute;
   top: 0;
   left: 0;
@@ -185,19 +179,19 @@ html, body {
   z-index: 10;
 }
 
-#folderContent ul {
+#teachContent ul {
   list-style: none;        /* remove default bullets */
   margin-left: 20px;       /* indent list relative to paragraph */
   padding-left: 0;
 }
 
-#folderContent li {
+#teachContent li {
   position: relative;
   margin-bottom: 5px;
   padding-left: 18px;      /* space for triangle */
 }
 
-#folderContent li::before {
+#teachContent li::before {
   content: "▶";            /* small triangle */
   position: absolute;
   left: 0;
@@ -207,8 +201,9 @@ html, body {
 }
 
 
-#closeFolder,
-#nestedCloseFolder {
+#infoCloseFolder,
+#pubCloseFolder,
+#teachCloseFolder {
   background: #707070;
   color: white;
   border: none;
@@ -216,14 +211,15 @@ html, body {
   cursor: pointer;
 }
 
-#nestedFolderContent,
-#folderContent {
+#infoContent,
+#pubContent,
+#teachContent {
   padding: 20px;
   overflow-y: auto;
 }
 
 /* Force black color for all section headings inside publications */
-#nestedFolderContent h3 {
+#pubContent h3 {
   font-size: 1.1rem;
   font-weight: bold;
   color: #000 !important;   /* force black */
@@ -232,7 +228,7 @@ html, body {
 }
 
 /* Remove top margin for the first heading (Extended Abstracts) */
-#nestedFolderContent h3:first-of-type {
+#pubContent h3:first-of-type {
   margin-top: 0 !important;
 }
 
@@ -338,8 +334,9 @@ html, body {
 /* mobile changes */
 
 @media (max-width: 768px) {
-   #folderWindow,
-  #nestedFolderWindow {
+   #infoWindow,
+   #pubWindow,
+   #teachWindow {
     position: fixed !important;  /* fill viewport reliably */
     top: 0 !important;
     left: 0 !important;
@@ -355,8 +352,9 @@ html, body {
   }
 
   /* make the header fixed to the top of the viewport (so it stays visible) */
-  #folderHeader,
-  #nestedFolderHeader {
+  #infoHeader,
+  #pubHeader,
+  #teachHeader {
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
@@ -370,8 +368,9 @@ html, body {
   /* content area should not be hidden under fixed header:
      nestedFolderContent is inside the window, but header is fixed,
      so we add top padding to the content element itself */
-  #nestedFolderContent,
-  #folderContent {
+  #pubContent,
+  #infoContent,
+  #teachContent {
     padding-top: 16px;
     padding-left: 16px;
     padding-right: 16px;

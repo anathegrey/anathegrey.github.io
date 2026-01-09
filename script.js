@@ -1,57 +1,128 @@
-// Background animation
 const canvas = document.getElementById("backgroundCanvas");
 const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
 
-const lambdaSymbol = "λ";
-const fontSize = 200;
-let pixelSize = 20;
-let pixelInterval;
-let transitionProgress = 0;
+// Resize canvas to full screen
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
 
-const centerX = canvas.width / 2;
-const centerY = canvas.height / 2;
+// Center helpers
+function centerX() {
+  return canvas.width / 2;
+}
 
-function pixelizeLambda() {
+function centerY() {
+  return canvas.height / 2;
+}
+
+const lambdaStrokes = [
+  { x1: 50, y1: 60, x2: -30,  y2: -100 },   // left
+  { x1: -40,   y1: 60,  x2: 0, y2: -40 }  // right
+];
+
+
+function createStartStrokes() {
+  const w = canvas.width;
+  const h = canvas.height;
+
+  const offsets = [
+    { dx: -w / 2 - 200, dy: -h / 2 - 200 }, // top-left
+    { dx:  w / 2 + 200, dy: -h / 2 - 200 }, // top-right
+  ];
+
+  return lambdaStrokes.map((s, i) => ({
+    x1: s.x1 + offsets[i].dx,
+    y1: s.y1 + offsets[i].dy,
+    x2: s.x2 + offsets[i].dx,
+    y2: s.y2 + offsets[i].dy
+  }));
+}
+
+let startStrokes = createStartStrokes();
+
+function lerp(a, b, t) {
+  return a + (b - a) * t;
+}
+
+function easeOutCubic(t) {
+  return 1 - Math.pow(1 - t, 3);
+}
+
+let startTime = null;
+const buildDuration = 2800; // ms
+
+function buildLambda(timestamp) {
+  if (!startTime) startTime = timestamp;
+
+  const elapsed = timestamp - startTime;
+  const t = Math.min(elapsed / buildDuration, 1);
+  const eased = easeOutCubic(t);
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  for (let x = centerX - 100; x <= centerX + 100; x += pixelSize) {
-    for (let y = centerY - 100; y <= centerY + 100; y += pixelSize) {
-      if (Math.random() < 0.5) {
-        ctx.fillStyle = "white";
-        ctx.fillRect(x, y, pixelSize, pixelSize);
+  ctx.strokeStyle = "#cfcfcf";
+  ctx.lineWidth = 12;
+  ctx.lineCap = "round";
+
+  const cx = centerX();
+  const cy = centerY();
+
+  lambdaStrokes.forEach((finalStroke, i) => {
+    const startStroke = startStrokes[i];
+
+    const x1 = lerp(startStroke.x1, finalStroke.x1, eased);
+    const y1 = lerp(startStroke.y1, finalStroke.y1, eased);
+    const x2 = lerp(startStroke.x2, finalStroke.x2, eased);
+    const y2 = lerp(startStroke.y2, finalStroke.y2, eased);
+
+    ctx.beginPath();
+    ctx.moveTo(cx + x1, cy + y1);
+    ctx.lineTo(cx + x2, cy + y2);
+    ctx.stroke();
+  });
+
+  // Continue animation until fully assembled
+  if (t < 1) {
+    requestAnimationFrame(buildLambda);
+  } else {
+    // Lock final strokes for one clean frame
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      lambdaStrokes.forEach(s => {
+	  ctx.beginPath();
+	  ctx.moveTo(cx + s.x1, cy + s.y1);
+	  ctx.lineTo(cx + s.x2, cy + s.y2);
+	  ctx.stroke();
+      });
+      if (t < 1) {
+	  requestAnimationFrame(buildLambda);
+      } else {
+	  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+	  lambdaStrokes.forEach(s => {
+	      ctx.beginPath();
+	      ctx.moveTo(cx + s.x1, cy + s.y1);
+	      ctx.lineTo(cx + s.x2, cy + s.y2);
+	      ctx.stroke();
+	  });
+	  showName();
       }
-    }
-  }
 
-  pixelSize -= 1.5;
-  transitionProgress += 0.01;
-
-  if (pixelSize <= 0.3) {
-    clearInterval(pixelInterval);
-    drawClearLambda();
-    setTimeout(showName, 5000);
   }
 }
-
-function drawClearLambda() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.font = `${fontSize}px monospace`;
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.fillStyle = "white";
-  ctx.fillText(lambdaSymbol, centerX, centerY);
-}
-
-pixelInterval = setInterval(pixelizeLambda, 100);
 
 function showName() {
   const nameText = document.getElementById("nameText");
-  nameText.style.opacity = "1";
+  if (nameText) {
+    nameText.style.opacity = "1";
+  }
 }
 
-// Draggable windows
+startStrokes = createStartStrokes();
+requestAnimationFrame(buildLambda);
+
 function makeDraggable(draggableElement) {
   let offsetX = 0;
   let offsetY = 0;
@@ -79,74 +150,96 @@ function makeDraggable(draggableElement) {
   }
 }
 
-// Window logic
 document.addEventListener("DOMContentLoaded", () => {
-  const folderWindow = document.getElementById("folderWindow");
-  const closeFolder = document.getElementById("closeFolder");
+  const infoWindow = document.getElementById("infoWindow");
+  const infoCloseFolder = document.getElementById("infoCloseFolder");
 
-  const nestedFolderWindow = document.getElementById("nestedFolderWindow");
-  const nestedCloseFolder = document.getElementById("nestedCloseFolder");
+  const pubWindow = document.getElementById("pubWindow");
+  const pubCloseFolder = document.getElementById("pubCloseFolder");
+    
+  const teachWindow = document.getElementById("teachWindow");
+  const teachCloseFolder = document.getElementById("teachCloseFolder");
 
   const infoLink = document.getElementById("infoLink");
   const publicationsLink = document.getElementById("publicationsLink");
+  const teachingLink = document.getElementById("teachingLink");
 
   infoLink.addEventListener("click", () => {
-    folderWindow.style.display = "block";
+    infoWindow.style.display = "block";
   });
 
-  closeFolder.addEventListener("click", () => {
-    folderWindow.style.display = "none";
+  infoCloseFolder.addEventListener("click", () => {
+    infoWindow.style.display = "none";
   });
 
   publicationsLink.addEventListener("click", () => {
-    nestedFolderWindow.style.left = "200px";
-    nestedFolderWindow.style.top = "100px";
-    nestedFolderWindow.style.display = "block";
+    pubWindow.style.left = "200px";
+    pubWindow.style.top = "100px";
+    pubWindow.style.display = "block";
   });
 
-  nestedCloseFolder.addEventListener("click", () => {
-    nestedFolderWindow.style.display = "none";
+  pubCloseFolder.addEventListener("click", () => {
+    pubWindow.style.display = "none";
+  });
+    
+  teachingLink.addEventListener("click", () => {
+    teachWindow.style.left = "300px";
+    teachWindow.style.top = "200px";
+    teachWindow.style.display = "block";
   });
 
-  makeDraggable(folderWindow);
-  makeDraggable(nestedFolderWindow);
+  teachCloseFolder.addEventListener("click", () => {
+    teachWindow.style.display = "none";
+  });
+
+  makeDraggable(infoWindow);
+  makeDraggable(pubWindow);
+  makeDraggable(teachWindow);
 });
 
-// Load publications dynamically
 document.addEventListener("DOMContentLoaded", () => {
   fetch('publications.html')
     .then(response => response.text())
     .then(data => {
-      document.getElementById('nestedFolderContent').innerHTML = data;
+      document.getElementById('pubContent').innerHTML = data;
     })
     .catch(error => console.error('Error loading publications:', error));
 });
 
-let highestZ = 30; // starting point above menu and other elements
+document.addEventListener("DOMContentLoaded", () => {
+  fetch('teaching.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('teachContent').innerHTML = data;
+    })
+    .catch(error => console.error('Error loading teaching:', error));
+});
+
+let highestZ = 30;
 
 function bringToFront(element) {
   highestZ++;
   element.style.zIndex = highestZ;
 }
 
-// Attach click listeners to all windows
-document.querySelectorAll('#folderWindow, #nestedFolderWindow').forEach(win => {
+document.querySelectorAll('#infoWindow, #pubWindow, #teachWindow').forEach(win => {
   win.addEventListener('mousedown', () => bringToFront(win));
 });
 
-// Example: when opening windows, also bring them to front
 function openWindow(id) {
   const win = document.getElementById(id);
   win.style.display = "block";
   bringToFront(win);
 }
 
-// Example: open Info window
 document.getElementById("infoLink").addEventListener("click", () => {
-  openWindow("folderWindow");
+  openWindow("infoWindow");
 });
 
-// Example: open Publications window
 document.getElementById("publicationsLink").addEventListener("click", () => {
-  openWindow("nestedFolderWindow");
+  openWindow("pubWindow");
+});
+
+document.getElementById("teachingLink").addEventListener("click", () => {
+  openWindow("teachWindow");
 });
