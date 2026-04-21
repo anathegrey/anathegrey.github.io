@@ -150,6 +150,8 @@ function makeDraggable(draggableElement) {
   }
 }
 
+makeDraggable(document.getElementById("25abrilicon"));
+
 document.addEventListener("DOMContentLoaded", () => {
   const infoWindow = document.getElementById("infoWindow");
   const infoCloseFolder = document.getElementById("infoCloseFolder");
