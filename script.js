@@ -200,6 +200,15 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
+  fetch('info.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('infoContent').innerHTML = data;
+    })
+    .catch(error => console.error('Error loading info:', error));
+});
+
+document.addEventListener("DOMContentLoaded", () => {
   fetch('publications.html')
     .then(response => response.text())
     .then(data => {
